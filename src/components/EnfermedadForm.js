@@ -24,7 +24,6 @@ const EnfermedadForm = () => {
 
   // Handle fields change
   const handleChange = (input) => (e) => {
-    console.log(e.target.value);
     setState((prevState) => ({
       ...prevState,
       [input]: e.target.value,

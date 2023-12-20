@@ -51,9 +51,17 @@ const Enfermedades = (props) => {
   };
 
   async function crearChequeo(data) {
-    console.log(data);
+    
+    const parsed = {};
+
+    parsed.id_enfermedad = data.id_enfermedad;
+    parsed.nombre_enfermedad = data.enfermedad_nombre;
+    parsed.descripcion_enfermedad = data.enfermedad_descripcion;
+    parsed.documento_enfermadad = data.enfermedad_descripcion;
+
+
     try{
-    await axios.post(`<AQUI LA URL DEL SERVICIO POST>`, data).then((response) => {
+    await axios.post(`<AQUI LA URL DEL SERVICIO POST>`, parsed).then((response) => {
       console.log("Error del servidor", response.data);
     });
    }catch(error){
