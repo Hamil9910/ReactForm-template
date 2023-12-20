@@ -1,67 +1,68 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import Confirm from './Confirm';
 import Success from './Success';
 import Enfermedades from './Enfermedades';
 
-export class EnfermedadForm extends Component {
-  state = {
-    step: 1,
-    id_enfermedad: '',
-    selectedOption: '',
-    nombreenfermedad: '',
-    descripcionenfermedad: ''
-  };
+const EnfermedadForm = () => {
+
+  const [ step, setStep ] = useState(1);
+
+  const [ state, setState ] = useState({
+    id_enfermedad: Math.floor(Math.random() * 90000) + 10000,
+    enfermedad_selected: '',
+    enfermedad_nombre: '',
+    enfermedad_descripcion: ''
+  });
+
+  //const { step } = state.step;
+  //  const { id_enfermedad, enfermedad_selected, enfermedad_nombre, enfermedad_descripcion, enfermedad_file } = state;
+  const values = state;
 
   // Proceed to next step
-  nextStep = () => {
-    const { step } = this.state;
-    this.setState({
-      step: step + 1
-    });
-  };
-
-  // Go back to prev step
-  prevStep = () => {
-    const { step } = this.state;
-    this.setState({
-      step: step - 1
-    });
-  };
+  const nextStep = () =>  setStep(step + 1);
+  const prevStep = () =>  setStep(step - 1);
 
   // Handle fields change
-  handleChange = input => e => {
-    this.setState({ [input]: e.target.value });
+  const handleChange = (input) => (e) => {
+    console.log(e.target.value);
+    setState((prevState) => ({
+      ...prevState,
+      [input]: e.target.value,
+    }));
   };
 
-  render() {
-    const { step } = this.state;
-    const { id_enfermedad, enfermedad_selected, enfermedad_nombre, enfermedad_descripcion, enfermedad_file } = this.state;
-    const values = { id_enfermedad, enfermedad_selected, enfermedad_nombre, enfermedad_descripcion, enfermedad_file };
-
-    switch (step) {
-      case 1:
-        return (
-          <Enfermedades
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            handleChange={this.handleChange}
-            values={values}
-          />
-        );
-      case 2:
-        return (
-          <Confirm
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            values={values}
-          />
-        );
-      case 3:
-        return <Success />;
-      default:
-        (console.log('This is a multi-step form built with React.'))
-    }
+  const render = () => {
+  switch (step) {
+    case 1:
+      return (
+        <Enfermedades
+          nextStep={nextStep}
+          prevStep={prevStep}
+          handleChange={handleChange}
+          values={values}
+        />
+      );
+    case 2:
+      return (
+        <Confirm
+          nextStep={nextStep}
+          prevStep={prevStep}
+          values={state}
+        />
+      );
+    case 3:
+      return <Success/>;
+    default:
+      (console.log('This is a multi-step form built with React.'))
   }
+  }
+  return(
+    <>
+    { 
+    render()
+    }
+    </>
+  );
 }
 
 export default EnfermedadForm;

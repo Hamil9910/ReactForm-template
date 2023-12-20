@@ -1,5 +1,6 @@
 import React from 'react';
-import { EnfermedadForm } from './components/EnfermedadForm';
+import EnfermedadForm from './components/EnfermedadForm';
+import Enfermedades from './components/Enfermedades';
 
 function App() {
   return (

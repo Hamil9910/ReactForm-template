@@ -1,24 +1,23 @@
-import React, { Component } from 'react';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 
+const theme = createTheme();
 
-export class Success extends Component {
-  continue = e => {
+const Success = (props) => {
+
+  const handleContinue = (e) => {
     e.preventDefault();
-    // PROCESS FORM //
-    this.props.nextStep();
+    props.nextStep();
   };
 
-  back = e => {
+  const handleBack = (e) => {
     e.preventDefault();
-    this.props.prevStep();
+    props.prevStep();
   };
 
-  render() {
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider theme={theme}>
         <>
           <Dialog
             open
@@ -32,7 +31,6 @@ export class Success extends Component {
         </>
       </MuiThemeProvider>
     );
-  }
 }
 
 export default Success;

@@ -11,6 +11,7 @@ const outerTheme = createTheme({
 });
 
 const Confirm = (props) => {
+
   
   const continueHandler = e => {
     e.preventDefault();
@@ -21,10 +22,12 @@ const Confirm = (props) => {
     e.preventDefault();
     props.prevStep();
   };
-
-  const { id_enfermedad, enfermedad_selected, enfermedad_nombre, enfermedad_descripcion, enfermedad_file } = props.values;
+  
+  const { values } = props; 
+  const { id_enfermedad, enfermedad_selected, enfermedad_nombre, enfermedad_descripcion, enfermedad_file } = values;
 
   return (
+    
     <ThemeProvider theme={outerTheme}>
       <Dialog
         open

@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider,createTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
+
+const theme = createTheme();
 
 const Enfermedades = (props) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const { values, handleChange } = props;
 
-  const continueHandler = (e) => {
-    console.log(props);
+  const continueHandler = e => {
     e.preventDefault();
     props.nextStep();
+    
   };
 
   const handleDrop = (acceptedFiles) => {
@@ -46,11 +50,20 @@ const Enfermedades = (props) => {
     });
   };
 
-  const { values, handleChange } = props;
+  async function crearChequeo(data) {
+    console.log(data);
+    try{
+    await axios.post(`<AQUI LA URL DEL SERVICIO POST>`, data).then((response) => {
+      console.log("Error del servidor", response.data);
+    });
+   }catch(error){
+   
+   }
+  }
 
   return (
-    <MuiThemeProvider>
-      <>
+    <MuiThemeProvider theme={theme}>
+      <form>
         <Dialog
           open
           fullWidth
@@ -60,8 +73,9 @@ const Enfermedades = (props) => {
           <TextField
             placeholder="Ingresa el Id de la enfermedad"
             label="ID enfermedad"
-            onChange={handleChange('enfermedad_id')}
-            defaultValue={10}
+            onChange={() => handleChange('id_enfermedad')}
+            defaultValue={values.id_enfermedad}
+            disabled
             margin="normal"
             fullWidth
           />
@@ -130,10 +144,20 @@ const Enfermedades = (props) => {
           <Button
             color="primary"
             variant="contained"
-            onClick={continueHandler}
+            onClick={ (e) => {
+              try {
+                crearChequeo(values)
+              } catch (error) {
+                
+              } finally {
+                continueHandler(e)
+              }
+              
+            }
+            }
           >Continuar</Button>
         </Dialog>
-      </>
+      </form>
     </MuiThemeProvider>
   );
 };
